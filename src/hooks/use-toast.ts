@@ -26,7 +26,7 @@ const actionTypes = {
 } as const
 
 // 👇 Get type-safe keys
-type ActionType = keyof typeof actionTypes
+//type ActionType = keyof typeof actionTypes
 
 type Action =
   | {
