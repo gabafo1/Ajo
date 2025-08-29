@@ -28,7 +28,7 @@ export function ChartPie({ data }: ChartPieProps) {
     // ✅ Process data first, log before return
     const processData = data.map((item, i) => {
         console.log(item);
-        let index = i + 1;
+        const index = i + 1;
         return {
             ...item,
             total: parseInt(item.total as string, 10),
@@ -42,27 +42,26 @@ export function ChartPie({ data }: ChartPieProps) {
         0
     );
 
-    // ✅ Chart config
-    const chartConfig: ChartConfig & Record<string, any> = {
+    // ✅ Chart config with stricter typing
+    const chartConfig: ChartConfig & Record<string, { label: string; color?: string }> = {
         total: {
             label: "Subscriptions",
         },
     };
 
     data.forEach((item, i) => {
-        let index = i + 1;
+        const index = i + 1;
         chartConfig[item.plan] = {
-            label:
-                item.plan.charAt(0).toUpperCase() + item.plan.slice(1),
+            label: item.plan.charAt(0).toUpperCase() + item.plan.slice(1),
             color: `hsl(var(--chart-${index}))`,
         };
     });
 
     return (
         <Card>
-            <CardHeader className=" text-center">
+            <CardHeader className="text-center">
                 <CardTitle>Subscriptions Breakdown</CardTitle>
-                <CardDescription className=" text-xs md:text-normal">
+                <CardDescription className="text-xs md:text-normal">
                     Showing total subscriptions for all time
                 </CardDescription>
             </CardHeader>

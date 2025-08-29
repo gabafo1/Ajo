@@ -37,7 +37,7 @@ export default function FeaturesSection() {
             Smarter savings, simpler management
           </p>
           <p className="mt-6 text-lg/8 text-gray-700">
-            Whether you're starting a group or joining one, Alajo simplifies every step—from contributions to payouts—
+            Whether you&apos;re starting a group or joining one, Alajo simplifies every step—from contributions to payouts—
             with transparency, automation, and security at its core.
           </p>
         </div>

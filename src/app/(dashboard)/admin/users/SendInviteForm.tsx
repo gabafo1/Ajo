@@ -6,7 +6,6 @@ import { sendInvitation, type ActionStatus } from "../actions";
 import { useActionState } from "react";
 import  cn  from "clsx";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { getUserList } from "../actions";
 
 export const SendInviteForm = () => {
     const[state, formAction] = useActionState<{

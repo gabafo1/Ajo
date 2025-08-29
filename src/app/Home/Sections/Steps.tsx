@@ -73,9 +73,12 @@ function Steps() {
                 <div className="inline-flex items-center justify-center w-10 h-10 text-base font-bold text-white bg-gray-900 dark:bg-gray-700 rounded-xl">
                   3
                 </div>
-                <h3 className="text-lg font-semibold text-gray-600 mt-2 dark:text-white">Receive Payouts</h3>
+                <h3 className="text-lg font-semibold text-gray-600 mt-2 dark:text-white">
+                  Receive Payouts
+                </h3>
                 <p className="mt-4 text-xl font-medium text-gray-900 dark:text-gray-300">
-                When it's your turn, you'll receive the pooled funds directly. We manages the cycle transparently & securely.
+                  When it&apos;s your turn, you&apos;ll receive the pooled funds directly.
+                  We manage the cycle transparently &amp; securely.
                 </p>
               </div>
             </div>

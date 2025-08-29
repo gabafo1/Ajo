@@ -1,6 +1,4 @@
-import { drizzle } from "drizzle-orm/node-postgres";
 import { seed } from "drizzle-seed";
-import { gt } from "drizzle-orm";
 import * as schema from "@/db/schema"
 import { db } from "@/db";
 

@@ -5,6 +5,7 @@ import { Trash2 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { UpdateRoleForm } from './UpdateRoleForm';
 import { DeleteInviteBtn } from './DeleteInviteBtn';
+import Image from 'next/image';
 
 
 
@@ -30,7 +31,7 @@ export default async function Page() {
               <div key={user.id}>
                 <li className="flex flex-col space-y-4 rounded-lg border bg-card p-4 md:flex-row md:items-center md:justify-between md:space-y-0 md:space-x-4 transition-shadow hover:shadow-sm">
                   <div className="flex items-center space-x-4">
-                    <img
+                    <Image
                       src={user.imageUrl}
                       alt={`${user.firstName} ${user.lastName}`}
                       className="h-10 w-10 rounded-full object-cover"
@@ -82,7 +83,7 @@ export default async function Page() {
         <div className="space-y-4">
           <h3 className="text-lg font-semibold text-foreground">Pending Invites</h3>
           <p className="text-sm text-muted-foreground">
-            Invited users who haven't accepted their invitation yet.
+            Invited users who haven&apos;t accepted their invitation yet.
           </p>
         </div>
         <div className="lg:col-span-2">

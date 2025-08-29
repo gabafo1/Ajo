@@ -2,7 +2,6 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { AppSideBar } from "@/app/(dashboard)/components/SideBar";
 import { Toaster } from "@/components/ui/sonner";
 import Headers from "@/app/(dashboard)/components/Headers";
-import { ClerkProvider } from "@clerk/nextjs";
 
 export default function DashboardLayout({
   children,

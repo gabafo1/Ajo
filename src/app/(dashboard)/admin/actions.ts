@@ -3,23 +3,21 @@
 import { db } from "@/db"
 import { subscriptionsTable } from "@/db/schema";
 import { count, sql, asc, and, or, eq, isNull } from "drizzle-orm"
-import { auth, clerkClient, Invitation } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server"; // Removed Invitation
 import { Roles } from "@/types/globals";
-import { error } from "console";
 import { revalidatePath } from "next/cache";
-
 
 export type ActionStatus = "success" | "error" | "warning" | "default"
 
-export const checkRole = async(role: Roles) =>{
-    const{ sessionClaims } = await auth();
-    return sessionClaims?.metadata.role === role
+export const checkRole = async (role: Roles) => {
+    const { sessionClaims } = await auth();
+    return sessionClaims?.metadata.role === role;
 }
 
-export async function setRole(formData: FormData){
-    const client = await clerkClient()
+export async function setRole(formData: FormData) {
+    const client = await clerkClient();
 
-    if(!checkRole("admin")) {
+    if (!checkRole("admin")) {
         return {
             status: "error" as ActionStatus,
             message: "Unauthorized"
@@ -27,25 +25,28 @@ export async function setRole(formData: FormData){
     }
 
     try {
-        const res = await  client.users.updateUser(formData.get("id") as string,{
+        const res = await client.users.updateUser(formData.get("id") as string, {
             publicMetadata: {
-                role:formData.get("role") as Roles,
+                role: formData.get("role") as Roles,
             }
-        })
+        });
         console.log(res);
-        return{
-            message: res.publicMetadata
+        return {
+            message: res.publicMetadata,
+            status: "success" as ActionStatus
         }
-    }catch(err){
-        status: "error" as ActionStatus
-        message: err
+    } catch (err) {
+        return {
+            status: "error" as ActionStatus,
+            message: err instanceof Error ? err.message : String(err),
+        }
     }
 }
 
-export async function removeRole(formData: FormData){
-    const client = await clerkClient()
+export async function removeRole(formData: FormData) {
+    const client = await clerkClient();
 
-    if(!checkRole("admin")) {
+    if (!checkRole("admin")) {
         return {
             status: "error" as ActionStatus,
             message: "Unauthorized"
@@ -53,17 +54,20 @@ export async function removeRole(formData: FormData){
     }
 
     try {
-        const res = await  client.users.updateUser(formData.get("id") as string,{
+        const res = await client.users.updateUser(formData.get("id") as string, {
             publicMetadata: {
-                role:null
+                role: null
             }
-        })
-        return{
-            message: res.publicMetadata
+        });
+        return {
+            message: res.publicMetadata,
+            status: "success" as ActionStatus
         }
-    }catch(err){
-        status: "error" as ActionStatus
-        message: err
+    } catch (err) {
+        return {
+            status: "error" as ActionStatus,
+            message: err instanceof Error ? err.message : String(err),
+        }
     }
 }
 
@@ -77,17 +81,17 @@ export async function getInvitations() {
 
 export async function revokeInvitation(invitationId: string) {
     const client = await clerkClient();
-    try{
+    try {
         const res = await client.invitations.revokeInvitation(invitationId);
         revalidatePath("/admin/users");
         return {
             message: res.revoked,
             status: res.revoked ? "success" as ActionStatus : "error" as ActionStatus
         }
-    } catch(err){
-        return{
+    } catch (err) {
+        return {
             status: "error" as ActionStatus,
-            message: err
+            message: err instanceof Error ? err.message : String(err),
         }
     }
 }
@@ -105,16 +109,15 @@ export async function getUserList() {
 }
 
 export async function sendInvitation(
-    state:{
+    state: {
         message: string;
         status: ActionStatus;
     },
     formData: FormData
-): Promise <{
+): Promise<{
     message: string;
     status: ActionStatus;
-}>
-    {
+}> {
     const client = await clerkClient();
     const email = formData.get("email") as string;
     const role = "user";
@@ -132,36 +135,36 @@ export async function sendInvitation(
 
     const existingInvitation = invitations.data.find(invitation => invitation.emailAddress === email)
 
-    if(existingInvitation){  
-        return{  
+    if (existingInvitation) {
+        return {
             status: "warning" as ActionStatus,
-            message:"User already invited",
+            message: "User already invited",
         }
     }
 
-    try{
+    try {
         const invitation = await client.invitations.createInvitation(inviteParams);
-        if(invitation.status !== "pending"){
-            return{
+        if (invitation.status !== "pending") {
+            return {
                 status: "error" as ActionStatus,
                 message: "Failed to send invitation!"
             }
         }
         revalidatePath("/admin/users");
-        return{
+        return {
             status: "success" as ActionStatus,
             message: "Invitation Sent!"
         }
-    } catch(error){
-        return{
+    } catch (err) {
+        return {
             status: "error" as ActionStatus,
-            message: "Failed to send invitation!"
+            message: err instanceof Error ? err.message : "Failed to send invitation!"
         }
     }
 }
 
 export async function getSubscriptionsCount() {
-    const data = await db.select({count: count()}).from(subscriptionsTable);
+    const data = await db.select({ count: count() }).from(subscriptionsTable);
     return data[0].count
 }
 
@@ -169,7 +172,7 @@ export async function getSubscriptionsBreakDown() {
     const breakdown = await db.select({
         plan: subscriptionsTable.plan,
         total: sql<number>`count(*)`,
-        }). from(subscriptionsTable)
+    }).from(subscriptionsTable)
         .where(and(
             or(
                 eq(subscriptionsTable.plan, "basic"),
@@ -191,24 +194,24 @@ export async function getActiveSubsByPlanPerMonth(interval: number = 12) {
         and ${subscriptionsTable.startDate} <= series.month
         and (${subscriptionsTable.endDate} is null or ${subscriptionsTable.endDate} >= series.month))`,
     })
-    .from(
-        sql`
-        (
-            SELECT generate_series(
-            DATE_TRUNC('month', CURRENT_DATE - (${interval}::integer || ' months') ::interval),
-            DATE_TRUNC('month', CURRENT_DATE),
-            '1 month'::interval
-            ) as month
-        ) as series 
-        `
-    )
-    .leftJoin(subscriptionsTable, sql`${subscriptionsTable.startDate} <= series.month
-        and (${subscriptionsTable.endDate} is null or ${subscriptionsTable.endDate} >= series.month)`)
-    .groupBy(
-        sql`DATE_TRUNC('month', series.month)`,
-        sql`to_char(date_trunc('month', series.month), 'Mon YYYY')`
-    )
-    .orderBy(asc(sql`DATE_TRUNC('month', series.month)`));
+        .from(
+            sql`
+            (
+                SELECT generate_series(
+                DATE_TRUNC('month', CURRENT_DATE - (${interval}::integer || ' months') ::interval),
+                DATE_TRUNC('month', CURRENT_DATE),
+                '1 month'::interval
+                ) as month
+            ) as series 
+            `
+        )
+        .leftJoin(subscriptionsTable, sql`${subscriptionsTable.startDate} <= series.month
+            and (${subscriptionsTable.endDate} is null or ${subscriptionsTable.endDate} >= series.month)`)
+        .groupBy(
+            sql`DATE_TRUNC('month', series.month)`,
+            sql`to_char(date_trunc('month', series.month), 'Mon YYYY')`
+        )
+        .orderBy(asc(sql`DATE_TRUNC('month', series.month)`));
 
     return monthOverMonthSubscriptions;
 }
