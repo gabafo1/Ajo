@@ -1,6 +1,6 @@
 import React from 'react'
 import { SidebarTrigger } from '@/components/ui/sidebar'
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 export default function Header() {
   return (
