@@ -1,11 +1,14 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  eslint: {
-    // ❌ WARNING: This allows production builds to successfully complete
-    // even if your project has ESLint errors.
-    ignoreDuringBuilds: true,
+// next.config.js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "img.clerk.com",
+      },
+    ],
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

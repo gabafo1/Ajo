@@ -31,11 +31,15 @@ export default async function Page() {
               <div key={user.id}>
                 <li className="flex flex-col space-y-4 rounded-lg border bg-card p-4 md:flex-row md:items-center md:justify-between md:space-y-0 md:space-x-4 transition-shadow hover:shadow-sm">
                   <div className="flex items-center space-x-4">
-                    <Image
-                      src={user.imageUrl}
-                      alt={`${user.firstName} ${user.lastName}`}
-                      className="h-10 w-10 rounded-full object-cover"
-                    />
+                    <div className="relative h-10 w-10">
+                      <Image
+                        src={user.imageUrl}
+                        alt={`${user.firstName} ${user.lastName}`}
+                        fill
+                        className="rounded-full object-cover"
+                      />
+                    </div>
+
                     <div>
                       <p className="font-medium text-foreground">
                         {user.firstName} {user.lastName}

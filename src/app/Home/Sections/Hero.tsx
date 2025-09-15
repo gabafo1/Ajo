@@ -4,6 +4,7 @@ import HeroImage from "@/assets/hero.png";
 import Image from "next/image";
 import { SignUpButton } from "@clerk/nextjs";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 function Hero() {
   return (
@@ -20,14 +21,13 @@ function Hero() {
             Alajo helps your savings group manage contributions, payouts, and records digitally and transparently.
         </p>
         <div className="mt-10 hidden justify-center space-x-2 sm:flex md:justify-normal">
-          <SignUpButton mode="modal">
-            <button
-              type="button"
-              className="flex gap-3 rounded-lg bg-zinc-900 px-4 py-3 text-white hover:bg-zinc-950 active:bg-zinc-800"
-            >
-              Get Started Saving <ArrowRight />
-            </button>
-          </SignUpButton>
+            <Link
+                role="button"
+                href="/pricing" // Replace with the target URL or path
+                className="flex gap-3 rounded-lg bg-zinc-900 px-4 py-3 text-white hover:bg-zinc-950 active:bg-zinc-800"
+              >
+               Get Started Saving <ArrowRight />
+            </Link>
         </div>
       </div>
       <div className="md:w-3/6 xl:mb-12 xl:overflow-hidden">

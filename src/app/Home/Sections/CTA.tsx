@@ -10,7 +10,7 @@ function CTA() {
             Manage your savings group digitally, securely, and stress-free with Alajo.
             </p>
             <div className="flex justify-center space-x-4">
-            <a href="/signup" className="bg-white text-black hover:bg-gray-100 font-semibold py-3 px-6 rounded-lg shadow">
+            <a href="./app/onboarding/pricing/" className="bg-white text-black hover:bg-gray-100 font-semibold py-3 px-6 rounded-lg shadow">
                 Get Started
             </a>
             <a href="/demo" className="border border-white hover:bg-white hover:text-black font-semibold py-3 px-6 rounded-lg">
