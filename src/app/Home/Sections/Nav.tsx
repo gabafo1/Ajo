@@ -5,7 +5,7 @@ import { Menu, X } from "lucide-react";
 import Alajo from "@/assets/alajo1.svg";
 import ButtonLink from "@/app/Home/common/ButtonLink";
 import Image from "next/image";
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
+import { SignInButton } from "@clerk/nextjs";
 import Link from "next/link";
 
 function Nav() {
@@ -97,12 +97,13 @@ function Nav() {
             {/* Mobile Action Buttons */}
             <div className="mt-4 space-y-2">
               {/* Mobile Sign Up */}
-                <button 
-                  type="button"
-                  className="block w-full rounded-xl bg-gray-800 px-5 py-3 text-center text-white hover:bg-green-500 active:bg-green-600 transition-colors"
-                >
-                  Get Started
-                </button>
+              <Link
+                role="button"
+                href="/pricing" // Replace with the target URL or path
+                className="rounded-xl bg-gray-800 px-5 py-3 text-white hover:bg-green-500 active:bg-green-600 transition-colors inline-block"
+              >
+                Get Started
+              </Link>
 
               {/* Mobile Sign In */}
               <SignInButton mode="modal">

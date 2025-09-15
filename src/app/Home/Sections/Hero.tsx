@@ -2,7 +2,6 @@
 import Phone from "@/assets/mockup.svg";
 import HeroImage from "@/assets/hero.png";
 import Image from "next/image";
-import { SignUpButton } from "@clerk/nextjs";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
