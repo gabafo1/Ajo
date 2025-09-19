@@ -58,7 +58,11 @@ function Nav() {
               </Link>
 
               {/* Clerk Sign In */}
+<<<<<<< HEAD
               <SignInButton mode="modal">
+=======
+              <SignInButton mode="modal" forceRedirectUrl="/dashboard">
+>>>>>>> 978af04 (Initial commit)
                 <button 
                   type="button"
                   className="rounded-xl border-2 border-gray-800 px-5 py-3 font-semibold text-gray-800 hover:border-gray-900 active:border-gray-600 transition-colors"
@@ -106,10 +110,17 @@ function Nav() {
               </Link>
 
               {/* Mobile Sign In */}
+<<<<<<< HEAD
               <SignInButton mode="modal">
                 <button 
                   type="button"
                   className="block w-full rounded-xl border-2 border-gray-800 px-5 py-3 text-center font-semibold text-gray-800 hover:border-gray-900 active:border-gray-600 transition-colors"
+=======
+              <SignInButton mode="modal" forceRedirectUrl="/dashboard">
+                <button 
+                  type="button"
+                  className=" rounded-xl border-2 border-gray-800 px-5 py-3 text-center font-semibold text-gray-800 hover:border-gray-900 active:border-gray-600 transition-colors inline-block"
+>>>>>>> 978af04 (Initial commit)
                 >
                   Sign in
                 </button>

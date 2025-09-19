@@ -19,7 +19,17 @@ export default function Header() {
           </h1>
         </div>
 
+<<<<<<< HEAD
         <div>
+=======
+        <div className='sm:flex space-x-3 outline-none'>
+          <button
+            type="button"
+            className="rounded-xl border-2 bg-black px-3 py-1 font-normal text-white hover:border-gray-900 active:border-gray-600 transition-colors"
+          >
+            Upgrade
+          </button>
+>>>>>>> 978af04 (Initial commit)
           <SignedOut />
           <SignedIn>
             <UserButton />
