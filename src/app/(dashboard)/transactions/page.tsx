@@ -1,10 +1,17 @@
-// src/app/(dashboard)/transactions/page.tsx
 "use client";
 
 import { useState } from 'react';
 import TransactionCard from '@/app/(dashboard)/components/TransactionCard';
 
-// Mock data
+interface Transaction {
+  id: string;
+  date: string;
+  amount: number;
+  type: 'contribution' | 'payout' | 'fee';
+  status: 'completed' | 'pending' | 'failed';
+  contributor: string;
+}
+
 const mockTransactions: Transaction[] = [
   {
     id: '1',
@@ -48,18 +55,11 @@ const mockTransactions: Transaction[] = [
   },
 ];
 
-interface Transaction {
-  id: string;
-  date: string;
-  amount: number;
-  type: 'contribution' | 'payout' | 'fee';
-  status: 'completed' | 'pending' | 'failed';
-  contributor: string;
-}
+type TransactionTypeFilter = 'all' | 'contribution' | 'payout' | 'fee';
 
 const Transactions: React.FC = () => {
   const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState<'all' | 'contribution' | 'payout' | 'fee'>('all');
+  const [filter, setFilter] = useState<TransactionTypeFilter>('all');
 
   const filteredTransactions = mockTransactions.filter(
     (transaction) =>
@@ -84,7 +84,7 @@ const Transactions: React.FC = () => {
           />
           <select
             value={filter}
-            onChange={(e) => setFilter(e.target.value as any)}
+            onChange={(e) => setFilter(e.target.value as TransactionTypeFilter)}
             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="all">All Types</option>

@@ -26,10 +26,17 @@ export function KycPopupForm({
   })
   const [loading, setLoading] = useState(false)
 
-  // Show popup only if server said user needs KYC
+  // 👉 Open the popup automatically if needsKyc = true
+  useEffect(() => {
+    if (needsKyc) {
+      setOpen(true)
+    }
+  }, [needsKyc])
+
+  // Load existing KYC when popup opens
   useEffect(() => {
     if (!open) return
-  
+
     const fetchKyc = async () => {
       try {
         const res = await fetch("/api/kyc")
@@ -50,11 +57,9 @@ export function KycPopupForm({
         console.error("Error loading KYC:", err)
       }
     }
-  
+
     fetchKyc()
   }, [open])
-  
-  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -74,7 +79,6 @@ export function KycPopupForm({
       if (res.ok) {
         console.log("KYC info saved to Clerk ✅")
 
-        // Refresh Clerk user metadata client-side
         if (clerkUser && isLoaded) {
           await clerkUser.reload()
           console.log("Updated Clerk publicMetadata:", clerkUser.publicMetadata)
