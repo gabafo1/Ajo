@@ -15,7 +15,7 @@ export default function Header() {
         <div className="flex items-center gap-3">
           <SidebarTrigger aria-label="Open sidebar" />
           <h1 className="text-sm font-medium text-foreground">
-            Welcome back {user.firstName} {user.lastName}
+            Welcome back {user.firstName} 
           </h1>
         </div>
 
