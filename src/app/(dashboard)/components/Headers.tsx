@@ -19,9 +19,6 @@ export default function Header() {
           </h1>
         </div>
 
-<<<<<<< HEAD
-        <div>
-=======
         <div className='sm:flex space-x-3 outline-none'>
           <button
             type="button"
@@ -29,7 +26,6 @@ export default function Header() {
           >
             Upgrade
           </button>
->>>>>>> 978af04 (Initial commit)
           <SignedOut />
           <SignedIn>
             <UserButton />
