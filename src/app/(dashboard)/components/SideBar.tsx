@@ -2,7 +2,7 @@
 
 import { useUser } from "@clerk/nextjs";
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../../../components/ui/sidebar";
-import {  Home, Receipt, SearchIcon, User } from "lucide-react";
+import {  Calendar, Home, Receipt, SearchIcon, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -22,13 +22,14 @@ export function AppSideBar(){
         { name: "Dashboard", href: "/dashboard", icon: <Home /> },
         ...(role && role === "admin" ?[ 
             { name: "Users", href: "/admin/users", icon: <User /> },
+            { name: "Reports", href: "/reports", icon: <SearchIcon /> }
         ] :[]),
         { name: "Transactions", href: "/transactions", icon: <Receipt /> },
-        { name: "Reports", href: "/reports", icon: <SearchIcon /> }
+        { name: "Schedule", href: "/schedule", icon: <Calendar /> },
     ]
 
     return(
-        <Sidebar collapsible="icon" side= "left">
+        <Sidebar  side= "left">
             <SidebarHeader>
                 <h1 className="text-2xl font-bold text-primary"> Admin Portal</h1>
             </SidebarHeader>
