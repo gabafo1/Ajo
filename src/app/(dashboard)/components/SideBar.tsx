@@ -29,7 +29,7 @@ export function AppSideBar(){
     ]
 
     return(
-        <Sidebar  side= "left">
+        <Sidebar collapsible="offcanvas"  side= "left">
             <SidebarHeader>
                 <h1 className="text-2xl font-bold text-primary"> Admin Portal</h1>
             </SidebarHeader>
