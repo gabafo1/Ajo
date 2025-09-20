@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-// Type Definitions
+// --- Types ---
 interface MemberData {
   name: string;
   totalContributions: number;
@@ -25,20 +25,29 @@ interface Transaction {
   date: string;
 }
 
-interface ScheduleProps {
-  memberData?: MemberData;
-  transactions?: Transaction[];
-  groupName?: string;
-}
+// --- Mock Data (replace with API later) ---
+const mockMember: MemberData = {
+  name: "John Doe",
+  totalContributions: 50000,
+  nextPayout: 10000,
+  payoutPosition: "2nd",
+  completedCycles: 3,
+};
 
-// Utility to format currency
+const mockTransactions: Transaction[] = [
+  { type: "Contribution", group: "Ajo Group A", amount: 10000, date: "2025-09-10" },
+  { type: "Payout", group: "Ajo Group A", amount: -5000, date: "2025-09-08" },
+  { type: "Contribution", group: "Ajo Group A", amount: 7000, date: "2025-09-06" },
+];
+
+// --- Utility ---
 const formatCurrency = (value: number) =>
   new Intl.NumberFormat("en-NG", {
     style: "currency",
     currency: "NGN",
   }).format(value);
 
-// Reusable StatCard Component
+// --- Reusable Card ---
 interface StatCardProps {
   title: string;
   value: string | number;
@@ -48,36 +57,32 @@ interface StatCardProps {
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, icon, color }) => (
   <div
-    className={`bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300 ${color}`}
+    className={`bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300`}
     role="region"
     aria-label={title}
   >
     <div className="flex items-center justify-between mb-4">
-      <div className={`p-3 rounded-full bg-opacity-20 ${color}`}>
-        {icon}
-      </div>
+      <div className={`p-3 rounded-full ${color} bg-opacity-20`}>{icon}</div>
     </div>
     <h3 className="text-2xl font-bold text-gray-900">{value}</h3>
     <p className="text-gray-600 text-sm">{title}</p>
   </div>
 );
 
-export default function Schedule({
-  memberData,
-  transactions = [],
-  groupName,
-}: ScheduleProps) {
+// --- Main Page ---
+export default function Schedule() {
   const [isLoading] = useState(false); // Mock loading state
+
+  const memberData = mockMember;
+  const transactions = mockTransactions;
+  const groupName = "My Savings Group";
 
   return (
     <div className="space-y-8 p-4 sm:p-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-gray-900">
-          Schedule{" "}
-          {groupName && (
-            <span className="text-indigo-600">· {groupName}</span>
-          )}
+          Schedule {groupName && <span className="text-indigo-600">· {groupName}</span>}
         </h1>
       </div>
 
@@ -95,10 +100,7 @@ export default function Schedule({
       {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-pulse">
           {[...Array(4)].map((_, i) => (
-            <div
-              key={i}
-              className="bg-gray-200 p-6 rounded-2xl h-32"
-            ></div>
+            <div key={i} className="bg-gray-200 p-6 rounded-2xl h-32"></div>
           ))}
         </div>
       ) : (
@@ -173,17 +175,13 @@ export default function Schedule({
                     </div>
                     <div>
                       <p className="font-medium">{transaction.type}</p>
-                      <p className="text-sm text-gray-600">
-                        {transaction.group}
-                      </p>
+                      <p className="text-sm text-gray-600">{transaction.group}</p>
                     </div>
                   </div>
                   <div className="text-right">
                     <p
                       className={`font-semibold ${
-                        transaction.amount > 0
-                          ? "text-green-600"
-                          : "text-red-600"
+                        transaction.amount > 0 ? "text-green-600" : "text-red-600"
                       }`}
                     >
                       {formatCurrency(Math.abs(transaction.amount))}
@@ -195,7 +193,7 @@ export default function Schedule({
               {transactions.length > 3 && (
                 <button
                   className="mt-4 text-indigo-600 hover:text-indigo-800 font-medium"
-                  onClick={() => alert("View all transactions")} // Replace with actual navigation
+                  onClick={() => alert("View all transactions")} // replace later
                 >
                   View All Transactions
                 </button>
