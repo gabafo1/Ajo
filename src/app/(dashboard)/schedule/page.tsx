@@ -37,7 +37,7 @@ const mockMember: MemberData = {
 const mockTransactions: Transaction[] = [
   { type: "Contribution", group: "Ajo Group A", amount: 10000, date: "2025-09-10" },
   { type: "Payout", group: "Ajo Group A", amount: -5000, date: "2025-09-08" },
-  { type: "Contribution", group: "Ajo Group A", amount: 7000, date: "2025-09-06" },
+  { type: "Contribution", group: "Ajo Group B", amount: 7000, date: "2025-09-06" },
 ];
 
 // --- Utility ---
