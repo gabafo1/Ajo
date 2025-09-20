@@ -96,7 +96,7 @@ export function KycPopupForm({
   }
 
   return (
-    <Dialog>
+    <Dialog open={open}>
       <DialogContent
         className="sm:max-w-md"
         onEscapeKeyDown={(e) => e.preventDefault()}
