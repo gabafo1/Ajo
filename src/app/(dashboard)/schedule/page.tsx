@@ -67,7 +67,7 @@ export default function Schedule({
   transactions = [],
   groupName,
 }: ScheduleProps) {
-  const [isLoading, setIsLoading] = useState(false); // Mock loading state
+  const [isLoading] = useState(false); // Mock loading state
 
   return (
     <div className="space-y-8 p-4 sm:p-6 max-w-7xl mx-auto">
