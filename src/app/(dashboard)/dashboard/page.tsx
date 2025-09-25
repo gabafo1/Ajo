@@ -13,7 +13,6 @@ import {
   getUserList 
 } from "@/app/(dashboard)/admin/actions";
 import { currentUser } from "@clerk/nextjs/server"
-import { KycPopupForm } from "@/app/(dashboard)/components/KycPopupForm"  
 import { db } from "@/db";
 import { kyc } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -76,22 +75,7 @@ export default async function Dashboard() {
       <h1 className="text-3xl font-bold mb-6">
         Dashboard {groupName ? `- ${groupName}` : ""}
       </h1>
-
       <MetricCards metrics={metrics} />
-
-      {/* Show KYC form only if missing */}
-      {user && (
-        <KycPopupForm
-          needsKyc={needsKyc}
-          user={{
-            id: user.id,
-            firstName: user.firstName || "",
-            lastName: user.lastName || "",
-            email: user.primaryEmailAddress?.emailAddress || "",
-          }}
-        />
-      )}
-
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="md:col-span-2">
           <ChartLine data={cyclesPerMonth} />

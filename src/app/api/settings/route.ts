@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { kyc } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-// GET /api/kyc/status?userId=123
+// GET /api/settings?userId=123
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
@@ -14,39 +14,39 @@ export async function GET(req: Request) {
 
   try {
     const result = await db
-      .select()
+      .select({ groupName: kyc.groupName })
       .from(kyc)
       .where(eq(kyc.userId, userId))
       .limit(1);
 
     return NextResponse.json(result[0] ?? {});
   } catch (err) {
-    console.error("❌ Error fetching KYC:", err);
+    console.error("❌ Error fetching settings:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
 
-// POST /api/kyc
+// POST /api/settings
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { userId, firstName, lastName, bvn, nin, phone, groupName } = body;
+    const { userId, groupName } = body;
 
-    if (!userId || !firstName || !lastName) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    if (!userId || !groupName) {
+      return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
     await db
       .insert(kyc)
-      .values({ userId, firstName, lastName, bvn, nin, phone, groupName })
+      .values({ userId, groupName, firstName: "", lastName: "" }) // required cols
       .onConflictDoUpdate({
         target: kyc.userId,
-        set: { firstName, lastName, bvn, nin, phone, groupName },
+        set: { groupName },
       });
 
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error("❌ Error saving KYC:", err);
+    console.error("❌ Error saving settings:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

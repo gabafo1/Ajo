@@ -2,7 +2,7 @@
 
 import { useUser } from "@clerk/nextjs";
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../../../components/ui/sidebar";
-import {  Home, Receipt, SearchIcon, User } from "lucide-react";
+import {  Cog, Home, NotebookPenIcon, SearchIcon, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -22,9 +22,10 @@ export function AppSideBar(){
         { name: "Dashboard", href: "/dashboard", icon: <Home /> },
         ...(role && role === "admin" ?[ 
             { name: "Users", href: "/admin/users", icon: <User /> },
+            { name: "Reports", href: "/reports", icon: <SearchIcon /> },
         ] :[]),
-        { name: "Transactions", href: "/transactions", icon: <Receipt /> },
-        { name: "Reports", href: "/reports", icon: <SearchIcon /> }
+        { name: "Transactions", href: "/transactions", icon: <NotebookPenIcon /> },
+        { name: "Setting", href: "/setting", icon: <Cog/> }
     ]
 
     return(

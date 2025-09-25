@@ -14,7 +14,7 @@ export const subscriptionsTable = pgTable("subscriptions", {
 
 export const kyc = pgTable("kyc", {
     id: uuid("id").defaultRandom().primaryKey(),
-    userId: text("user_id").notNull(), // Clerk userId
+    userId: text("user_id").notNull().unique(), // <-- add unique constraint
     groupName: text("group_name").notNull(),
     firstName: text("first_name").notNull(),
     lastName: text("last_name").notNull(),
