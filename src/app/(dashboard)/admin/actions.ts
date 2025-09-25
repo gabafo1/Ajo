@@ -110,67 +110,58 @@ export async function getUserList() {
 
 export async function sendInvitation(
     state: {
-      message: string;
-      status: ActionStatus;
+        message: string;
+        status: ActionStatus;
     },
-    formData: FormData,
-    adminUser: { id: string; groupId: string } // pass in the admin's group
-  ): Promise<{
+    formData: FormData
+): Promise<{
     message: string;
     status: ActionStatus;
-  }> {
+}> {
     const client = await clerkClient();
     const email = formData.get("email") as string;
-  
     const role = "user";
-  
+
     const inviteParams = {
-      emailAddress: email,
-      publicMetadata: {
-        role,
-        groupId: adminUser.groupId,   // tie invited user to admin’s group
-        invitedBy: adminUser.id       // optional: track inviter
-      }
-    };
-  
+        emailAddress: email,
+        publicMetadata: {
+            role
+        }
+    }
+
     const invitations = await client.invitations.getInvitationList({
-      status: "pending"
-    });
-  
-    const existingInvitation = invitations.data.find(
-      invitation => invitation.emailAddress === email
-    );
-  
+        status: "pending"
+    })
+
+    const existingInvitation = invitations.data.find(invitation => invitation.emailAddress === email)
+
     if (existingInvitation) {
-      return {
-        status: "warning" as ActionStatus,
-        message: "User already invited",
-      };
-    }
-  
-    try {
-      const invitation = await client.invitations.createInvitation(inviteParams);
-  
-      if (invitation.status !== "pending") {
         return {
-          status: "error" as ActionStatus,
-          message: "Failed to send invitation!",
-        };
-      }
-  
-      revalidatePath("/admin/users");
-      return {
-        status: "success" as ActionStatus,
-        message: "Invitation Sent!",
-      };
-    } catch (err) {
-      return {
-        status: "error" as ActionStatus,
-        message: err instanceof Error ? err.message : "Failed to send invitation!",
-      };
+            status: "warning" as ActionStatus,
+            message: "User already invited",
+        }
     }
-  }
-  
+
+    try {
+        const invitation = await client.invitations.createInvitation(inviteParams);
+        if (invitation.status !== "pending") {
+            return {
+                status: "error" as ActionStatus,
+                message: "Failed to send invitation!"
+            }
+        }
+        revalidatePath("/admin/users");
+        return {
+            status: "success" as ActionStatus,
+            message: "Invitation Sent!"
+        }
+    } catch (err) {
+        return {
+            status: "error" as ActionStatus,
+            message: err instanceof Error ? err.message : "Failed to send invitation!"
+        }
+    }
+}
 
 export async function getSubscriptionsCount() {
     const data = await db.select({ count: count() }).from(subscriptionsTable);
@@ -224,4 +215,3 @@ export async function getActiveSubsByPlanPerMonth(interval: number = 12) {
 
     return monthOverMonthSubscriptions;
 }
-
