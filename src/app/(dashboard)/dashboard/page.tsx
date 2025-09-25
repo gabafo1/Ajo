@@ -38,9 +38,7 @@ export default async function Dashboard() {
 
     if (existingKyc.length > 0) {
       groupName = existingKyc[0].groupName;
-    } else {
-      needsKyc = true;
-    }
+    } 
   }
 
   const metrics: Metric[] = [
