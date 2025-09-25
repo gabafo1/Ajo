@@ -26,7 +26,6 @@ export default async function Dashboard() {
 
   const user = await currentUser();
 
-  let needsKyc = false;
   let groupName: string | null = null;
 
   if (user?.id) {
